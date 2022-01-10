@@ -6,6 +6,12 @@ var engine, world;
 var box1, box2, ground, box3, box4, box5;
 var pig1, pig2;
 var log1, log2, log3, log4;
+var bird;
+var imagemfundo;
+function preload(){
+imagemfundo= loadImage("sprites/bg.png");
+}
+
 function setup(){
     var canvas = createCanvas(1200,400);
     engine = Engine.create();
@@ -26,10 +32,12 @@ box5= new Box(810,160,70,70);
 log3= new Log(760,120,150,PI/7);
 log4= new Log(870,120,150,-PI/7);
 
+bird = new Bird(100,100);
+
 }
 
 function draw(){
-    background(0);
+    background(imagemfundo);
     Engine.update(engine);
     box1.display();
     box2.display();
@@ -43,7 +51,7 @@ log2.display();
 box5.display();
 log3.display();
 log4.display();
-
+bird.display();
 
 }
 

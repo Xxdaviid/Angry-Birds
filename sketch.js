@@ -10,7 +10,7 @@ var log1, log2, log3, log4;
 var bird;
 var imagemfundo;
 var plataforma;
-var log5,ligacao;
+var estilingue;
 
 function preload(){
 imagemfundo= loadImage("sprites/bg.png");
@@ -40,17 +40,17 @@ bird = new Bird(100,100);
 
 plataforma = new Ground(150,305,300,170);
 
-log5= new Log(230,180,80,PI/2);
-ligacao= new Ligacao(bird.body,log5.body);
+
+estilingue= new Estilingue(bird.body,{x:200,y:100});
 }
 
 function draw(){
-    background(imagemfundo);
-    Engine.update(engine);
-    box1.display();
-    box2.display();
-    ground.display();
-    pig1.display();
+background(imagemfundo);
+Engine.update(engine);
+box1.display();
+box2.display();
+ground.display();
+pig1.display();
 log1.display();
 box3.display();
 box4.display();
@@ -61,6 +61,12 @@ log3.display();
 log4.display();
 bird.display();
 plataforma.display();
-log5.display();
-ligacao.display();
+estilingue.display();
+}
+
+function mouseDragged(){
+Matter.Body.setPosition(bird.body,{x:mouseX,y:mouseY});    
+}
+function mouseReleased(){
+estilingue.fly();
 }

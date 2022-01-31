@@ -11,7 +11,7 @@ var bird;
 var imagemfundo;
 var plataforma;
 var estilingue;
-
+var gamestate="noestilingue";
 function preload(){
 imagemfundo= loadImage("sprites/bg.png");
 }
@@ -42,6 +42,8 @@ plataforma = new Ground(150,305,300,170);
 
 
 estilingue= new Estilingue(bird.body,{x:200,y:50});
+
+ExemplosTiposdeDados();
 }
 
 function draw(){
@@ -65,13 +67,64 @@ estilingue.display();
 }
 
 function mouseDragged(){
-Matter.Body.setPosition(bird.body,{x:mouseX,y:mouseY});    
+if (gamestate!=="voando"){
+Matter.Body.setPosition(bird.body,{x:mouseX,y:mouseY});   
+}    
+  
 }
 function mouseReleased(){
 estilingue.fly();
+gamestate="voando";
 }
 function keyPressed(){
 if(keyCode===32){
-estilingue.anexar(bird.body);    
+//estilingue.anexar(bird.body);    
 }    
+}
+
+function ExemplosTiposdeDados(){
+    //Exemplos de tipos diferentes de dados em Javascript
+
+    //Número
+    var numero = 32;
+    console.log(numero);
+
+    //String
+    var string = "Isso é uma string";
+    console.log(string);
+
+    //Booleano
+    var booleano = true;
+    console.log(booleano);
+
+    //Indefinido
+    var objeto;
+    console.log(objeto);
+
+    //Nulo
+    //Tranformar a variável objeto em nulo
+    objeto = null;
+    console.log(objeto);
+
+    //Matrizes
+    //Matriz contendo apenas números
+    var matriz1 = [15, 35, 12, 27, 33];
+    console.log(matriz1);
+    matriz1.push(100);
+    console.log(matriz1);
+    matriz1.pop();
+    console.log(matriz1);
+
+    //Matriz contendo diferentes tipos de dados
+    var matriz2 = [15, "Davi", true];
+    console.log(matriz2[1]);
+
+    //Matriz de matrizes
+    var matriz3 = [matriz1, matriz2];
+    console.log(matriz3[1][2]);
+
+
+
+
+    
 }

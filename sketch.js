@@ -12,8 +12,10 @@ var imagemfundo;
 var plataforma;
 var estilingue;
 var gamestate="noestilingue";
+var scores=0;
+var tempo="sprites/bg.png";
 function preload(){
-imagemfundo= loadImage("sprites/bg.png");
+imagem();
 }
 
 function setup(){
@@ -43,11 +45,17 @@ plataforma = new Ground(150,305,300,170);
 
 estilingue= new Estilingue(bird.body,{x:200,y:50});
 
-ExemplosTiposdeDados();
+//ExemplosTiposdeDados();
 }
 
 function draw(){
-background(imagemfundo);
+if(imagemfundo){
+background(imagemfundo)
+noStroke();
+textSize(35);
+fill("white");    
+text("Pontuação " + scores, width-300, 50);
+}
 Engine.update(engine);
 box1.display();
 box2.display();
@@ -64,6 +72,8 @@ log4.display();
 bird.display();
 plataforma.display();
 estilingue.display();
+pig1.scores();
+pig2.scores();
 }
 
 function mouseDragged(){
@@ -81,6 +91,24 @@ if(keyCode===32){
 //estilingue.anexar(bird.body);    
 }    
 }
+
+async function imagem(){
+    var response = await fetch("http://worldtimeapi.org/api/timezone/Asia/Tokyo");
+    var responseJSON = await response.json();
+    var datetime = responseJSON.datetime;
+    var hora = datetime.slice(11,13);
+    if(hora>=6&&hora<=19){
+     tempo="sprites/bg.png";     
+    }else{
+    tempo="sprites/bg2.png";       
+    }
+    imagemfundo=loadImage(tempo);
+    console.log(datetime);
+}
+
+
+
+
 
 function ExemplosTiposdeDados(){
     //Exemplos de tipos diferentes de dados em Javascript

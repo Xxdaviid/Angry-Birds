@@ -1,8 +1,9 @@
+//Namespacing: colocar um nome de constante pra ficar mais curto
 const Engine = Matter.Engine;
 const World= Matter.World;
 const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
-
+//Variáveis
 var engine, world;
 var box1, box2, ground, box3, box4, box5;
 var pig1, pig2;
@@ -14,15 +15,22 @@ var estilingue;
 var gamestate="noestilingue";
 var scores=0;
 var tempo="sprites/bg.png";
+
+//Função usada para carregar arquivos
 function preload(){
 imagem();
 }
 
+//Função de configurações
 function setup(){
+//define o tamanho da nossa tela do jogo (largura, altura)
 var canvas = createCanvas(1200,400);
+//Cria o mecanismo de física e criamos o mundo onde vamos colocar corpos
 engine = Engine.create();
 world = engine.world;
 
+//Criando os elementos do jogo (box-caixa, pig-porco, log-tronco,bird-pássaro)
+//Os elementos são criados com base em classes (moldes)
 box1 = new Box(700,320,70,70);
 box2 = new Box(920,320,70,70);
 ground = new Ground(600,400,1200,20);
@@ -42,21 +50,25 @@ bird = new Bird(200,50);
 
 plataforma = new Ground(150,305,300,170);
 
-
 estilingue= new Estilingue(bird.body,{x:200,y:50});
 
 //ExemplosTiposdeDados();
 }
 
 function draw(){
+//Se tem uma imagem de fundo, ele vai colocar essa imagem e também o texto de pontuação
 if(imagemfundo){
 background(imagemfundo)
+//Configurações do texto
 noStroke();
 textSize(35);
 fill("white");    
+//Comando para mostrar o texto
 text("Pontuação " + scores, width-300, 50);
 }
+//Atualizar o mecanismo de física (por exemplo, fazer o pássaro cair)
 Engine.update(engine);
+//Mostrar os elementos do jogo
 box1.display();
 box2.display();
 ground.display();
@@ -72,26 +84,34 @@ log4.display();
 bird.display();
 plataforma.display();
 estilingue.display();
+//Sistema de pontuação de acordo com os porcos
 pig1.scores();
 pig2.scores();
 }
 
+//Arrastar o pássaro com o mouse
 function mouseDragged(){
-if (gamestate!=="voando"){
+//if (gamestate!=="voando"){
 Matter.Body.setPosition(bird.body,{x:mouseX,y:mouseY});   
-}    
-  
+//}    
+
+//Fazer o pássaro voar quando solta o botão do mouse
 }
 function mouseReleased(){
 estilingue.fly();
 gamestate="voando";
 }
+
+//Resetar a posição do pássaro quando aperta e tecla espaço (keyCode=32 - tabela ASCII)
 function keyPressed(){
-if(keyCode===32){
-//estilingue.anexar(bird.body);    
+if(keyCode===32&&bird.body.speed<1){
+bird.rastro=[];  
+Matter.Body.setPosition(bird.body,{x:200,y:50});  
+estilingue.anexar(bird.body);    
 }    
 }
 
+//Função para mudar o fundo de acordo com o horário do dia (chamada de API)
 async function imagem(){
     var response = await fetch("http://worldtimeapi.org/api/timezone/Asia/Tokyo");
     var responseJSON = await response.json();
@@ -100,7 +120,7 @@ async function imagem(){
     if(hora>=6&&hora<=19){
      tempo="sprites/bg.png";     
     }else{
-    tempo="sprites/bg2.png";       
+    tempo="sprites/bg2.jpg";       
     }
     imagemfundo=loadImage(tempo);
     console.log(datetime);
